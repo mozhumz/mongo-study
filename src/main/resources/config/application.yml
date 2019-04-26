@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+  swagger:
+    enable: true
+
+#日志文件配置：
+logging:
+  config: classpath:config/logback-spring.xml

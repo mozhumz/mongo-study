@@ -1,0 +1,102 @@
+#服务器相关配置
+server:
+  port: 8092
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 600
+  session:
+    timeout: 3600
+
+#spring相关配置
+spring:
+  devtools:
+    restart:
+      enabled: true
+  jackson:
+    time-zone: GMT+8
+  interceptor:
+    enabled: false
+  fastdfs:
+    enabled: true
+    config: config/fastdfs.properties
+    file_server_addr: "vcv"
+    max-file-size: 10485760
+#  session:
+#    store-type: none
+  #redis配置
+  #  redis:
+  #    host: 172.16.170.64
+  #    port: 6381
+  #    database: 1
+  #    password: xdkj@6c52
+  #    timeout: 0
+  #    pool:
+  #      max-active: 8
+  #      max-wait: -1
+  #      max-idle: 8
+  #      min-idle: 0
+  #数据库
+  datasource:
+    druid:
+      primary:
+        url: jdbc:mysql://127.0.0.1:3306/uestc_instructor_develop_v1?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+        username: uestc_instr
+        password: usestc_ oR3S2&2M
+        driver-class-name: com.mysql.jdbc.Driver
+        #配置双数据源后，当连接池空闲时间超过8小时，数据库连接就会自动断掉，为了避免这种情况,增加配置
+        time-between-eviction-runs-millis: 18800
+        max-active: 10
+        max-wait: 10000
+        min-idle: 5
+        initial-size: 5
+        validation-query: SELECT 1
+        test-on-borrow: false
+        test-while-idle: true
+      secondary:
+        url: jdbc:mysql://127.0.0.1:3306/uestc_data_center?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+        username: datamanager
+        password: usestc_ sGrcQWqr
+        driver-class-name: com.mysql.jdbc.Driver
+        #配置双数据源后，当连接池空闲时间超过8小时，数据库连接就会自动断掉，为了避免这种情况,增加配置
+        time-between-eviction-runs-millis: 18800
+        max-active: 10
+        max-wait: 10000
+        min-idle: 5
+        initial-size: 5
+        validation-query: SELECT 1
+        test-on-borrow: false
+        test-while-idle: true
+#    druid:
+#      url: jdbc:mysql://127.0.0.1:3306/uestc_instructor_develop_v1?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+#      username: uestc_instr
+#      password: usestc_ oR3S2&2M
+  #处理404抛出异常(当出现404直接抛出异常)
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+  http:
+    multipart:
+      max-request-size: 20MB
+      max-file-size: 20MB
+  application:
+    name: instructor-develop
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8090/eureka/
+
+zuul:
+  host:
+    connect-timeout-millis: 100000
+    socket-timeout-millis: 100000
+
+#usercenter:
+#  url: 39.108.238.199:8086
+
+#mybatis:
+#  mapper-locations: classpath:mapper/*.xml
+
+file:
+  path: ./develop/temp
