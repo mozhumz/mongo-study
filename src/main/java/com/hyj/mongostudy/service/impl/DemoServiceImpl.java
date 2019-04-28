@@ -27,7 +27,6 @@ import tk.mybatis.mapper.entity.Example;
  * Created by bysocket on 07/02/2017.
  */
 @Service
-
 @CacheConfig(cacheNames = "city")
 public class DemoServiceImpl implements IDemoService {
 
