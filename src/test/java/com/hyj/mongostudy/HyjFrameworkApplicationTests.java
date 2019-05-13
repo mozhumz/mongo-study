@@ -7,6 +7,9 @@ import com.hyj.mongostudy.model.domain.MgDepartment;
 import com.hyj.mongostudy.model.domain.MgEmployee;
 import com.hyj.mongostudy.model.po.City;
 import com.hyj.mongostudy.service.IDemoService;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.junit.Test;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -33,17 +37,36 @@ import java.util.List;
 public class HyjFrameworkApplicationTests {
 
 	@Autowired
+	@DBRef(db = "hyj")
 	private MongoTemplate mongoTemplate;
+
+	@Autowired
+	@DBRef(db = "hyj3")
+	private MongoTemplate mongoTemplate2;
 	@Resource
 	private IDemoService demoService;
+	@Resource
+	private MongoClient client;
 
 	@Test
-	public void contextLoads() {
+	public void changeDB() {
+		City city=new City();
+		city.setCityName("test-city113");
+		System.out.println(mongoTemplate.getDb().getName());
+		mongoTemplate.insert(city);
+		MongoDatabase db=client.getDatabase("hyj3");
+		MongoCollection collection=db.getCollection("test1");
+//		System.out.println(mongoTemplate2.getDb().getName());
+//		mongoTemplate2.insert(city);
+		collection.insertOne(city);
+
+
 	}
 
 	@Test
 	public void testAdd(){
 		City city=new City();
+
 		city.setCityName("20190513-2");
 		city.setDescription("xxx2");
 

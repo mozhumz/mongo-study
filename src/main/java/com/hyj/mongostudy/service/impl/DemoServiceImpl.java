@@ -130,7 +130,7 @@ public class DemoServiceImpl implements IDemoService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+//    @Transactional(rollbackFor = Exception.class)
     public void testAdd(City city) {
 //        City city1=cityMongoRepository.insert(city);
         City  city1=cityMongoRepository.insert(city);

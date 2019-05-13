@@ -16,7 +16,7 @@ import java.io.Serializable;
  */
 @Data
 @Document(collection = "t_city")
-public class City implements Serializable {
+public class City extends org.bson.Document implements Serializable {
 
     private static final long serialVersionUID = -1L;
 
