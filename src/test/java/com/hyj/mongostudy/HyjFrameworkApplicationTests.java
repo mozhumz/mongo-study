@@ -37,11 +37,14 @@ import java.util.List;
 public class HyjFrameworkApplicationTests {
 
 
-	@Resource(name="mongoTemplate")
-	private MongoTemplate mongoTemplate;
+//	@Resource(name="mongoTemplate")
+//	private MongoTemplate mongoTemplate;
+//
+//	@Resource(name="secondaryMongoTemplate")
+//	private MongoTemplate secondaryMongoTemplate;
 
-	@Resource(name="secondaryMongoTemplate")
-	private MongoTemplate secondaryMongoTemplate;
+	@Resource
+	private MongoTemplate mongoTemplate;
 
 	@Resource
 	private IDemoService demoService;
@@ -53,15 +56,15 @@ public class HyjFrameworkApplicationTests {
 		City city=new City();
 		city.setCityName("test-city113");
 		System.out.println(mongoTemplate.getDb().getName());
-		System.out.println(secondaryMongoTemplate.getDb().getName());
-		mongoTemplate.insert(city);
+//		System.out.println(secondaryMongoTemplate.getDb().getName());
+//		mongoTemplate.insert(city);
 
 		//MongoClient操作数据库
-		MongoDatabase db=client.getDatabase("hyj3");
-		MongoCollection collection=db.getCollection("test1");
-//		System.out.println(mongoTemplate2.getDb().getName());
-//		mongoTemplate2.insert(city);
-		collection.insertOne(city);
+//		MongoDatabase db=client.getDatabase("hyj3");
+//		MongoCollection collection=db.getCollection("test1");
+////		System.out.println(mongoTemplate2.getDb().getName());
+////		mongoTemplate2.insert(city);
+//		collection.insertOne(city);
 
 
 	}

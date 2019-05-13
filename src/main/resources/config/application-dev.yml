@@ -15,22 +15,22 @@ spring:
   data:
     mongodb:
 #      uri: mongodb://root:Mz52610@192.168.126.10:27017,192.168.126.13:27017,192.168.126.14:27017/admin
-#      uri: mongodb://root:Mz52610@192.168.6.10:27017,192.168.6.11:27017,192.168.6.12:27017/admin
-#      database: hyj
-      primary:
-        host: 192.168.6.10:27017,192.168.6.11:27017,192.168.6.12:27017
-        port: 27017
-        database: hyj
-        username: root
-        password: Mz52610
-        authenticationDatabase: admin
-      second:
-        host: 192.168.6.10:27017,192.168.6.11:27017,192.168.6.12:27017
-        port: 27017
-        database: hyj2
-        username: root
-        password: Mz52610
-        authenticationDatabase: admin
+      uri: mongodb://root:Mz52610@192.168.6.10:27017,192.168.6.11:27017,192.168.6.12:27017/admin
+      database: hyj
+#      primary:
+#        host: 192.168.6.10:27017,192.168.6.11:27017,192.168.6.12:27017
+#        port: 27017
+#        database: hyj
+#        username: root
+#        password: Mz52610
+#        authenticationDatabase: admin
+#      second:
+#        host: 192.168.6.10:27017,192.168.6.11:27017,192.168.6.12:27017
+#        port: 27017
+#        database: hyj2
+#        username: root
+#        password: Mz52610
+#        authenticationDatabase: admin
 
   devtools:
     restart:
