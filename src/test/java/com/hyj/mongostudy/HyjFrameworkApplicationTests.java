@@ -5,6 +5,8 @@ import com.hyj.mongostudy.mapper.mongodb.RemoveDollarOperation;
 import com.hyj.mongostudy.model.domain.MgCompany;
 import com.hyj.mongostudy.model.domain.MgDepartment;
 import com.hyj.mongostudy.model.domain.MgEmployee;
+import com.hyj.mongostudy.model.po.City;
+import com.hyj.mongostudy.service.IDemoService;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.junit.Test;
@@ -18,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import tk.mybatis.spring.annotation.MapperScan;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,12 +32,32 @@ import java.util.List;
 @EnableTransactionManagement
 public class HyjFrameworkApplicationTests {
 
+	@Autowired
+	private MongoTemplate mongoTemplate;
+	@Resource
+	private IDemoService demoService;
+
 	@Test
 	public void contextLoads() {
 	}
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
+	@Test
+	public void testAdd(){
+		City city=new City();
+		city.setCityName("20190513-2");
+		city.setDescription("xxx2");
+
+		demoService.testAdd(city);
+
+	}
+
+	@Test
+	public void testAdd2(){
+		City city=new City();
+		city.setCityName("20190513-1");
+		demoService.testAdd2(city);
+	}
+
 
 	@Test
 	public void initData() {

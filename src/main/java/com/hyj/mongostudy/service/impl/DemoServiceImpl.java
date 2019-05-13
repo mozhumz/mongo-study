@@ -8,6 +8,7 @@ import com.hyj.mongostudy.exception.BaseException;
 import com.hyj.mongostudy.mapper.DemoMapper;
 import com.hyj.mongostudy.mapper.mongodb.ICityMongoRepository;
 import com.hyj.mongostudy.model.po.City;
+import com.hyj.mongostudy.model.po.City2;
 import com.hyj.mongostudy.service.IDemoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,13 +132,22 @@ public class DemoServiceImpl implements IDemoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void testAdd(City city) {
-        City city1=cityMongoRepository.insert(city);
+//        City city1=cityMongoRepository.insert(city);
+        City  city1=cityMongoRepository.insert(city);
+        City2 city2=new City2();
+        city2.setCityName("20190513-2");
+        mongoTemplate.insert(city2);
+        System.out.println(city1);
+
+        throw new BaseException();
     }
 
     @Override
     @Transactional
     public void testAdd2(City city) {
         City city1=cityMongoRepository.insert(city);
+        city1=cityMongoRepository.save(city);
+        System.out.println(city1);
         throw new BaseException();
     }
 
