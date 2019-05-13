@@ -1,4 +1,4 @@
-package com.hyj.mongostudy.mapper.mongodb;
+package com.hyj.mongostudy.mapper.mongodb.mongo1;
 
 /**
  * @author huyuanjia

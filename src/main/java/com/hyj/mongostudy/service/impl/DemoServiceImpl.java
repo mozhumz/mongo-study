@@ -6,7 +6,7 @@ package com.hyj.mongostudy.service.impl;
  */
 import com.hyj.mongostudy.exception.BaseException;
 import com.hyj.mongostudy.mapper.DemoMapper;
-import com.hyj.mongostudy.mapper.mongodb.ICityMongoRepository;
+import com.hyj.mongostudy.mapper.mongodb.mongo1.ICityMongoRepository;
 import com.hyj.mongostudy.model.po.City;
 import com.hyj.mongostudy.model.po.City2;
 import com.hyj.mongostudy.service.IDemoService;

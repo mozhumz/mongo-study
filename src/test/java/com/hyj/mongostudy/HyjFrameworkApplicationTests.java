@@ -1,7 +1,7 @@
 package com.hyj.mongostudy;
 
 import com.alibaba.fastjson.JSONArray;
-import com.hyj.mongostudy.mapper.mongodb.RemoveDollarOperation;
+import com.hyj.mongostudy.mapper.mongodb.mongo1.RemoveDollarOperation;
 import com.hyj.mongostudy.model.domain.MgCompany;
 import com.hyj.mongostudy.model.domain.MgDepartment;
 import com.hyj.mongostudy.model.domain.MgEmployee;
@@ -36,13 +36,13 @@ import java.util.List;
 @EnableTransactionManagement
 public class HyjFrameworkApplicationTests {
 
-	@Autowired
-	@DBRef(db = "hyj")
+
+	@Resource(name="mongoTemplate")
 	private MongoTemplate mongoTemplate;
 
-	@Autowired
-	@DBRef(db = "hyj3")
-	private MongoTemplate mongoTemplate2;
+	@Resource(name="secondaryMongoTemplate")
+	private MongoTemplate secondaryMongoTemplate;
+
 	@Resource
 	private IDemoService demoService;
 	@Resource
@@ -53,7 +53,10 @@ public class HyjFrameworkApplicationTests {
 		City city=new City();
 		city.setCityName("test-city113");
 		System.out.println(mongoTemplate.getDb().getName());
+		System.out.println(secondaryMongoTemplate.getDb().getName());
 		mongoTemplate.insert(city);
+
+		//MongoClient操作数据库
 		MongoDatabase db=client.getDatabase("hyj3");
 		MongoCollection collection=db.getCollection("test1");
 //		System.out.println(mongoTemplate2.getDb().getName());
