@@ -54,8 +54,11 @@ public class HyjFrameworkApplicationTests {
 	@Test
 	public void changeDB() {
 		City city=new City();
-		city.setCityName("test-city113");
+		city.setCityName("test-city1135");
 		System.out.println(mongoTemplate.getDb().getName());
+		Document document=new Document();
+
+		mongoTemplate.insert(city);
 //		System.out.println(secondaryMongoTemplate.getDb().getName());
 //		mongoTemplate.insert(city);
 
