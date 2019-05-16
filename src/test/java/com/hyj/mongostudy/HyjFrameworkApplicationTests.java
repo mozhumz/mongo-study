@@ -93,7 +93,8 @@ public class HyjFrameworkApplicationTests {
 
 	@Test
 	public void testDelete(){
-		City city=mongoTemplate.findOne(new Query(Criteria.where("cityName").is("20190513-1")),City.class);
+		City city=mongoTemplate.findOne(new Query(Criteria.where("cityName").is("20190513-1")).limit(1),City.class);
+		System.out.println(city);
 		demoService.testDelete2(city);
 	}
 

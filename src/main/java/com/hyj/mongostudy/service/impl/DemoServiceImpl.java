@@ -180,7 +180,6 @@ public class DemoServiceImpl implements IDemoService {
     @Transactional
     public void testDelete2(City city) {
 //        mongoTemplate.remove(city);
-        System.out.println(city);
         cityMongoRepository.delete(city);
 //        throw new BaseException();
     }
