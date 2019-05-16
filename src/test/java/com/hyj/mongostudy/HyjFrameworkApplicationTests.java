@@ -20,6 +20,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.CriteriaDefinition;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import tk.mybatis.spring.annotation.MapperScan;
@@ -75,7 +77,7 @@ public class HyjFrameworkApplicationTests {
 	public void testAdd(){
 		City city=new City();
 
-		city.setCityName("20190513-2");
+		city.setCityName("20190513-1");
 		city.setDescription("xxx2");
 
 		demoService.testAdd(city);
@@ -83,10 +85,16 @@ public class HyjFrameworkApplicationTests {
 	}
 
 	@Test
-	public void testAdd2(){
-		City city=new City();
-		city.setCityName("20190513-1");
-		demoService.testAdd2(city);
+	public void testUpdate(){
+		City city=mongoTemplate.findOne(new Query(Criteria.where("cityName").is("20190513-2")),City.class);
+		city.setCityName("20190513-3");
+		demoService.testUpdate2(city);
+	}
+
+	@Test
+	public void testDelete(){
+		City city=mongoTemplate.findOne(new Query(Criteria.where("cityName").is("20190513-1")),City.class);
+		demoService.testDelete2(city);
 	}
 
 

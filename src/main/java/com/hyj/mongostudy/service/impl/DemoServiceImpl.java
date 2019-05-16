@@ -130,7 +130,7 @@ public class DemoServiceImpl implements IDemoService {
     }
 
     @Override
-//    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public void testAdd(City city) {
 //        City city1=cityMongoRepository.insert(city);
         City  city1=cityMongoRepository.insert(city);
@@ -139,7 +139,7 @@ public class DemoServiceImpl implements IDemoService {
         mongoTemplate.insert(city2);
         System.out.println(city1);
 
-        throw new BaseException();
+//        throw new BaseException();
     }
 
     @Override
@@ -180,8 +180,9 @@ public class DemoServiceImpl implements IDemoService {
     @Transactional
     public void testDelete2(City city) {
 //        mongoTemplate.remove(city);
+        System.out.println(city);
         cityMongoRepository.delete(city);
-        throw new BaseException();
+//        throw new BaseException();
     }
 
 }
