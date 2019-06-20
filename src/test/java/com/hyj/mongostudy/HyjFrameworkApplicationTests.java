@@ -6,12 +6,18 @@ import com.hyj.mongostudy.model.domain.MgCompany;
 import com.hyj.mongostudy.model.domain.MgDepartment;
 import com.hyj.mongostudy.model.domain.MgEmployee;
 import com.hyj.mongostudy.model.po.City;
+import com.hyj.mongostudy.model.po.Order;
+import com.hyj.mongostudy.model.po.User;
 import com.hyj.mongostudy.service.IDemoService;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +26,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.CriteriaDefinition;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import tk.mybatis.spring.annotation.MapperScan;
@@ -29,6 +33,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -37,7 +42,6 @@ import java.util.List;
 @MapperScan("com.hyj.mongostudy.mapper")
 @EnableTransactionManagement
 public class HyjFrameworkApplicationTests {
-
 
 //	@Resource(name="mongoTemplate")
 //	private MongoTemplate mongoTemplate;
@@ -55,13 +59,6 @@ public class HyjFrameworkApplicationTests {
 
 	@Test
 	public void changeDB() {
-		City city=new City();
-		city.setCityName("test-city1135");
-		System.out.println(mongoTemplate.getDb().getName());
-
-		mongoTemplate.insert(city);
-//		System.out.println(secondaryMongoTemplate.getDb().getName());
-//		mongoTemplate.insert(city);
 
 		//MongoClient操作数据库
 //		MongoDatabase db=client.getDatabase("hyj3");
@@ -77,7 +74,7 @@ public class HyjFrameworkApplicationTests {
 	public void testAdd(){
 		City city=new City();
 
-		city.setCityName("20190513-1");
+		city.setCityName("20190513-2");
 		city.setDescription("xxx2");
 
 		demoService.testAdd(city);
@@ -85,19 +82,70 @@ public class HyjFrameworkApplicationTests {
 	}
 
 	@Test
-	public void testUpdate(){
-		City city=mongoTemplate.findOne(new Query(Criteria.where("cityName").is("20190513-2")),City.class);
-		city.setCityName("20190513-3");
-		demoService.testUpdate2(city);
+	public void testAdd2(){
+		City city=new City();
+		city.setCityName("20190513-1");
+		demoService.testAdd2(city);
 	}
 
 	@Test
-	public void testDelete(){
-		City city=mongoTemplate.findOne(new Query(Criteria.where("cityName").is("20190513-1")).limit(1),City.class);
-		System.out.println(city);
-		demoService.testDelete2(city);
+	public void testAddData(){
+
+		for(int i=0;i<3;i++){
+			Date date=new Date();
+			User user=new User();
+			user.setAge(i+10);
+			user.setName("name"+i);
+			user.setCreateDate(date);
+			mongoTemplate.insert(user);
+			System.out.println("user:"+user);
+			for(int j=0;j<2;j++){
+				Order order=new Order();
+				order.setUserId(user.getId());
+				order.setMoney(j+0.3);
+				order.setProduce("produce"+j);
+				order.setCreateDate(date);
+				mongoTemplate.insert(order);
+				System.out.println("order:"+order);
+			}
+		}
+	}
+	@Test
+	public void testAggregation(){
+		aggregateLookup();
 	}
 
+	public AggregationResults<Document> aggregateLookup() {
+		// 创建条件
+		AggregationOperation lookup = Aggregation.lookup("t_order", "_id", "userId", "orders");
+		AggregationOperation unwind = Aggregation.unwind("orders");
+		AggregationOperation match = Aggregation.match(Criteria.where("name").is("小明").and("orders.produce").is("产品2"));
+		AggregationOperation project = Aggregation.project( "age",  "orders.money")
+				.and("name").as("name1")
+				.and("orders._id").as("orderId");
+
+//		List<DBObject> pipeline = new ArrayList<>();
+//		DBObject projectFields = new BasicDBObject();
+//
+//		projectFields.put("money1", "$orders.money");
+//		projectFields.put("myid","$_id");
+//		((BasicDBObject) projectFields).put("age1","$age");
+//		DBObject project2 = new BasicDBObject("$project", projectFields);
+//		pipeline.add(project2);
+
+		// 将条件封装到Aggregate管道
+		Aggregation aggregation = Aggregation.newAggregation(lookup, unwind,project);
+
+		// 查询
+		AggregationResults<Document> aggregate = mongoTemplate.aggregate(aggregation, "t_user", Document.class);
+		for(Object o:aggregate.getMappedResults()){
+			System.out.println(o);
+		}
+		System.out.println(aggregate.getMappedResults());
+		System.out.println(aggregate.getRawResults());
+		System.out.println(aggregate.getServerUsed());
+		return aggregate;
+	}
 
 	@Test
 	public void initData() {
