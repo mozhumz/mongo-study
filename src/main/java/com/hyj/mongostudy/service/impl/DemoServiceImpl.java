@@ -47,7 +47,7 @@ public class DemoServiceImpl implements IDemoService {
      * 如果缓存不存在，从 DB 中获取城市信息，然后插入缓存
      */
 //    @Cacheable(cacheNames = {"city"})
-    @Cacheable
+    @Cacheable(key = "#id")
     public City findCityById(String id) {
         // 从缓存中获取城市信息
 //        String key = "city_" + id;
