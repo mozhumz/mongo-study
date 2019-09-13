@@ -110,6 +110,8 @@ public class HyjFrameworkApplicationTests {
 			}
 		}
 	}
+
+	//联表查询
 	@Test
 	public void testAggregation(){
 		aggregateLookup();
