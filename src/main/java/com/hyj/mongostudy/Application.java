@@ -7,7 +7,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 //import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-@MapperScan("com.hyj.mongoSet.mapper")
+@MapperScan("com.hyj.mongostudy.mapper")
 //@EnableCaching
 //@EnableEurekaClient
 //@EnableDiscoveryClient

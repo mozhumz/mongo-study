@@ -6,8 +6,9 @@ package com.hyj.mongostudy.service.impl;
  */
 import com.hyj.mongostudy.exception.BaseException;
 import com.hyj.mongostudy.mapper.DemoMapper;
-import com.hyj.mongostudy.mapper.mongodb.ICityMongoRepository;
+import com.hyj.mongostudy.mapper.mongodb.mongo1.ICityMongoRepository;
 import com.hyj.mongostudy.model.po.City;
+import com.hyj.mongostudy.model.po.City2;
 import com.hyj.mongostudy.service.IDemoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,6 @@ import tk.mybatis.mapper.entity.Example;
  * Created by bysocket on 07/02/2017.
  */
 @Service
-
 @CacheConfig(cacheNames = "city")
 public class DemoServiceImpl implements IDemoService {
 
@@ -47,7 +47,7 @@ public class DemoServiceImpl implements IDemoService {
      * 如果缓存不存在，从 DB 中获取城市信息，然后插入缓存
      */
 //    @Cacheable(cacheNames = {"city"})
-    @Cacheable
+    @Cacheable(key = "#id")
     public City findCityById(String id) {
         // 从缓存中获取城市信息
 //        String key = "city_" + id;
@@ -132,13 +132,22 @@ public class DemoServiceImpl implements IDemoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void testAdd(City city) {
-        City city1=cityMongoRepository.insert(city);
+//        City city1=cityMongoRepository.insert(city);
+        City  city1=cityMongoRepository.insert(city);
+        City2 city2=new City2();
+        city2.setCityName("20190513-2");
+        mongoTemplate.insert(city2);
+        System.out.println(city1);
+
+//        throw new BaseException();
     }
 
     @Override
     @Transactional
     public void testAdd2(City city) {
         City city1=cityMongoRepository.insert(city);
+        city1=cityMongoRepository.save(city);
+        System.out.println(city1);
         throw new BaseException();
     }
 
@@ -172,7 +181,7 @@ public class DemoServiceImpl implements IDemoService {
     public void testDelete2(City city) {
 //        mongoTemplate.remove(city);
         cityMongoRepository.delete(city);
-        throw new BaseException();
+//        throw new BaseException();
     }
 
 }
